@@ -24,8 +24,14 @@ RUN useradd -m -s /bin/bash mie && \
     echo "mie ALL=(ALL:ALL) ALL" > /etc/sudoers.d/mie
 
 # LDAP Configuration
-COPY users.ldif /etc/ldap/users.ldif
 # COPY setup.ldif /etc/ldap/setup.ldif
+COPY users.ldif /etc/ldap/users.ldif
+
+# Add default LDAP client config
+RUN echo "BASE    dc=mieweb,dc=com" > /etc/ldap/ldap.conf && \
+    echo "URI     ldap://localhost" >> /etc/ldap/ldap.conf && \
+    echo "BINDDN  cn=admin,dc=mieweb,dc=com" >> /etc/ldap/ldap.conf && \
+    echo "TLS_REQCERT allow" >> /etc/ldap/ldap.conf
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -42,14 +48,9 @@ RUN echo "slapd slapd/internal/generated_adminpw password secret" | debconf-set-
 # Add LDAP users via LDIF files
 RUN slapadd < /etc/ldap/users.ldif
 
-# Copy SSSD configuration
+# SSSD Configuration
 COPY sssd.conf /etc/sssd/sssd.conf
-
-# Set correct permissions for SSSD config
 RUN chmod 600 /etc/sssd/sssd.conf
 
-# Enable necessary services
-RUN systemctl enable slapd ssh sssd
-
-# Start SSH, LDAP, and SSSD services
+# Start SSH and LDAP services
 CMD service slapd start && service ssh start && bash
