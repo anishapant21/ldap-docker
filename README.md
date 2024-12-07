@@ -42,7 +42,7 @@ docker build -t myldap-sssd .
 Start the Docker container with the following command, which binds the SSH port (`2222`) to your local machine:
 
 ```bash
-docker run -it -p 2222:2222 myldap-sssd bash
+docker run -it -p 2222:22 myldap-sssd bash
 ```
 
 ### Step 3: Start Required Services
