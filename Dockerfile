@@ -5,6 +5,9 @@ FROM debian:latest
 COPY ldap_env.sh /tmp/ldap_env.sh
 RUN chmod +x /tmp/ldap_env.sh && . /tmp/ldap_env.sh
 
+# Ensure system consistency and update packages
+RUN rm -rf /var/lib/dpkg/info/* && dpkg --configure -a 
+
 # Install necessary packages
 RUN apt-get update && \
     apt-get install -y \
@@ -23,8 +26,7 @@ RUN apt-get update && \
 
 # SSH Configuration
 RUN mkdir /var/run/sshd && \
-    . /tmp/ldap_env.sh && \
-    echo "Port $SSH_PORT" >> /etc/ssh/sshd_config && \
+    echo "Port 22" >> /etc/ssh/sshd_config && \
     echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
     echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
     echo 'UsePAM yes' >> /etc/ssh/sshd_config
@@ -74,6 +76,9 @@ RUN chown -R openldap:openldap /etc/ldap/slapd.d && \
     chmod 755 /etc/ssl/private && \
     chmod 755 /etc/ssl/certs
 
+# Expose LDAP ports for external access
+EXPOSE 389 636
+
 # Generate certificates for TLS
 RUN . /tmp/ldap_env.sh && \
     openssl req -new -x509 -nodes -out /etc/ssl/certs/ldap-cert.pem -keyout /etc/ssl/private/ldap-key.pem -days 365 \
@@ -84,14 +89,14 @@ RUN . /tmp/ldap_env.sh && \
     chmod 644 /etc/ssl/certs/ldap-cert.pem /etc/ssl/certs/ca-cert.pem
 
 # Apply TLS configuration
-RUN slapd -h "ldapi:///" -u openldap -g openldap -d 256 & \
+RUN slapd -h "ldapi:/// ldap:/// ldaps:///" -u openldap -g openldap -d 256 & \
     sleep 5 && \
     ldapmodify -H ldapi:/// -Y EXTERNAL -f /etc/ldap/enable-tls.ldif && \
     killall slapd && \
     chmod 640 /etc/ssl/private/ldap-key.pem
 
-# Start services and set permissions
-CMD service slapd start && \
+# Start services
+CMD slapd -h "ldapi:/// ldap:/// ldaps:///" -u openldap -g openldap & \
     service ssh start && \
     service sssd start && \
-    bash
+    tail -f /dev/null
