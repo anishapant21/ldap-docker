@@ -14,3 +14,16 @@ gidNumber: 1001
 homeDirectory: /home/ann
 loginShell: /bin/bash
 userPassword: ann
+
+dn: cn=abrol,ou=users,dc=mieweb,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: abrol
+sn: Smith
+uid: abrol
+uidNumber: 1002
+gidNumber: 1002
+homeDirectory: /home/abrol
+loginShell: /bin/bash
+userPassword: abrol

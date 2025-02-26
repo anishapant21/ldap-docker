@@ -74,7 +74,7 @@ RUN chown -R openldap:openldap /etc/ldap/slapd.d && \
     chmod 755 /etc/ssl/certs
 
 # Expose necessary ports
-EXPOSE 389 636
+EXPOSE 389
 
 # Generate certificates for TLS
 RUN . /tmp/ldap_env.sh && \
