@@ -93,7 +93,7 @@ RUN slapd -h "ldapi:/// ldap:/// ldaps:///" -u openldap -g openldap -d 256 & \
     chmod 640 /etc/ssl/private/ldap-key.pem
 
 # Start services
-CMD slapd -h "ldapi:/// ldap:/// ldaps:///" -u openldap -g openldap & \
+CMD service slapd start && \
     service ssh start && \
     service sssd start && \
     tail -f /dev/null
