@@ -1,0 +1,12 @@
+# Terraform files
+**/.terraform/*          # Local Terraform cache directory
+*.tfstate                # State files
+*.tfstate.backup         # Backup state files
+*.tfstate.lock.info      # Lock files
+*.terraform.lock.hcl     # Dependency lock file (optional to exclude)
+crash.log                # Crash logs
+
+# Environment variables
+.env                     # Local environment files
+*.env.local
+*.tfvars          
