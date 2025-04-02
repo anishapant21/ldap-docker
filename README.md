@@ -4,7 +4,7 @@ This repository provides a Dockerized environment that includes:
 - **OpenLDAP** (`slapd`) for user directory management
 - **SSSD** (System Security Services Daemon) for integrating LDAP authentication
 - **OpenSSH** for remote login access
-- A local user (`mie`) and LDAP-based authentication for users(ann, chris, hrits).
+- LDAP-based authentication for users(ann, chris, hrits).
 
 ## Prerequisites
 
@@ -46,7 +46,11 @@ Start the Docker container with the following command, which binds the port (`38
 docker run -it -p 389:389 openldap-server bash
 ```
 
-### Step 3: Test User Existence and SSH into the Container
+### Step 3: Make sure the slapd service is running
+
+Check using command `service slapd status` and if it is not running run the command `service slapd start`
+
+### Step 4: Test User Existence and SSH into the Container
 
 Before SSHing into the client using this server, you can verify the existence of a user using the LDAP search command.
 
@@ -56,7 +60,7 @@ Before SSHing into the client using this server, you can verify the existence of
 ldapsearch -x -H ldap://localhost:389 -b "dc=mieweb,dc=com" "(uid=ann)"
 ```
 
-### Step 4: SSH into the Client
+### Step 5: SSH into the Client
 
 You can now SSH into the client using LDAP user(ann).
 
