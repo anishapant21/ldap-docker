@@ -14,3 +14,55 @@ gidNumber: 1001
 homeDirectory: /home/ann
 loginShell: /bin/bash
 userPassword: ann
+
+dn: cn=abrol,ou=users,dc=mieweb,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: abrol
+sn: Smith
+uid: abrol
+uidNumber: 1002
+gidNumber: 1002
+homeDirectory: /home/abrol
+loginShell: /bin/bash
+userPassword: abrol
+
+dn: cn=evan,ou=users,dc=mieweb,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: evan
+sn: pant
+uid: evan
+uidNumber: 1003
+gidNumber: 1003
+homeDirectory: /home/evan
+loginShell: /bin/bash
+userPassword: evan
+
+dn: cn=hrits,ou=users,dc=mieweb,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: hrits
+sn: pant
+uid: hrits
+uidNumber: 1004
+gidNumber: 1004
+homeDirectory: /home/hrits
+loginShell: /bin/bash
+userPassword: hrits
+
+dn: cn=chris,ou=users,dc=mieweb,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: chris
+sn: evans
+uid: chris
+uidNumber: 1005
+gidNumber: 1005
+homeDirectory: /home/chris
+loginShell: /bin/bash
+userPassword: chris
