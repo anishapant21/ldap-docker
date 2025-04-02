@@ -1,4 +1,4 @@
-# LDAP & SSSD Docker Container
+# OpenLDAP Server
 
 This repository provides a Dockerized environment that includes:
 - **OpenLDAP** (`slapd`) for user directory management
